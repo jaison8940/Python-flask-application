@@ -11,12 +11,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser,secrets.dbpass,secrets.dbhost,secrets.dbname)
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = conn
 db = SQLAlchemy(app)
 results_df = pd.read_sql('SELECT * FROM results',conn,index_col = 'id')
-print(results_df)
+# print(results_df)
 class results(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     Pclass = db.Column(db.Integer)
