@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+<head>
+    <title>Titanic Survival Prediction
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="https://shaack.com/projekte/bootstrap-input-spinner/src/bootstrap-input-spinner.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/united/bootstrap.min.css">
+    <style>
+        #res{
+        
+        width: 450px;
+        height: 500px;
+        border: 1px solid white;
+        border-radius: 10px;
+        font-size:30px;
+        text-align: center;
+        background: white;
+        margin: 0;
+        position: absolute;
+        top: 20%;
+        
+    }
+
+        label{
+        cursor: pointer;
+        filter: grayscale(100%);
+        font-size: 30px;
+        }
+        
+
+        label:hover {
+        filter: grayscale(0);
+        }
+
+        input[type="radio"]:checked+label {
+        filter: grayscale(0);
+        }
+
+        body {
+           background-image: url({{url_for('static', filename='ship.jpg')}});
+           background-size: cover;
+        }        
+       form{
+            background: white;
+            margin-top:10px;
+            padding: 20px;
+            border: 1px solid white;
+            border-radius: 10px;
+       }
+    </style>
+</head>
+<body class="container d-flex justify-content-center">
+
+    <div id="res" class="">
+        <img id='gif' src="" alt='gif' width="100px">
+        <p id="comments"></p>
+        <img style="display:block;margin-left: auto;margin-right: auto;width: 65%;" src="{{ url_for('visualize') }}">
+        <a href='' style="color:black">back</a>
+    </div>
+
+<div id="content">
+
+    
+    <h1 style="text-align:center; color: #ff794d">Titanic Survival Prediction</h1>
+    <form id="myform">
+    <div class="mb-3 w-80">
+        <label for="age" class="form-label"><span id="txt">Age<span></label>
+        <input id="age" name="age" type="number" min="0" max="150" steps="1" class="form-control" value="30">
+    </div>
+
+    <div class="mb-3">
+        <label for="gender" class="form-label">Gender</label>
+        <input type="radio" name="gender" class="sr-only" id="male" value=1>
+        <label for="male">            
+            <img src="{{url_for('static', filename='male.png')}}" alt="male" width="50">
+        </label>
+        <input type="radio" name="gender" class="sr-only" id="female" value=0>        
+        <label for="female">            
+            <img src="{{url_for('static', filename='female.png')}}" alt="female" width="43" />        
+        </label>
+  
+    </div>
+
+    <div class="mb-3" style="color:white;">
+        <label for="pclass" class="form-label" style="color:black;">Passenger Class</label>
+        
+            
+                <input type="radio" name="pclass" class="sr-only" id="one" value=1>
+                <label for="one">
+                    <a type="button" class="btn btn-primary">1</a>
+                </label>
+                <input type="radio" name="pclass" class="sr-only" id="two" value=2>
+                <label for="two">
+                    <a type="button" class="btn btn-primary">2</a>
+                </label>
+                <input type="radio" name="pclass" class="sr-only" id="three" value=3>
+                <label for="three">
+                    <a type="button" class="btn btn-primary">3</a>
+        </label>
+                
+        
+    </div>
+
+    <div class="mb-3 w-80">
+        <label for="sibsp" class="form-label">No of Siblings + Spouse</label>
+        <input id="sibsp" name="sibsp" type="number" min="0" max="50" steps="1" class="form-control" value="0">
+    </div>
+
+    <div class="mb-3 w-80">
+        <label for="parch" class="form-label">No of parents + children</label>
+        <input id="parch" name="parch" type="number" min="0" max="50" steps="1" class="form-control" value="0">
+    </div>
+
+
+    <div class="mb-3 w-80 text-center">
+        <button type="submit" class="btn btn-primary center">Submit</button>
+    </div>
+    
+    </form>
+</div>
+
+
+<script>
+    $("input[type='number']").inputSpinner();
+
+    $(document).ready(function(){
+        
+       $('#res').hide();
+        $('#content').show();
+    });
+
+    $('a').click(function(){
+        $('#res').hide();
+        $('#content').show();
+    });
+    
+    
+    $('form').submit(function(){
+        
+        var age = document.getElementById('age').value;
+        var pclass = document.querySelector( 'input[name="pclass"]:checked').value;
+        var gender = document.querySelector( 'input[name="gender"]:checked').value;
+        var sibsp = document.getElementById('sibsp').value;
+        var parch = document.getElementById('parch').value;
+        //console.log(age,pclass,gender,sibsp,parch);
+        let form_data = {
+            age: age,
+            pclass: pclass,
+            gender: gender,
+            sibsp: sibsp,
+            parch: parch
+        }
+        fetch('/',{
+              method: 'POST',
+              body: JSON.stringify(form_data),              
+              headers: new Headers({
+                "content-type": "application/json"
+                })
+        })
+        .then((resp) => resp.json())
+        .then(function(data) {         
+        res = data.result;
+        img_id = document.getElementById('gif');
+        comm = document.getElementById('comments');
+        if (res == '0'){
+            img_id.src = "{{url_for('static', filename='sad.gif')}}";
+            comm.innerText = 'Not Survive';
+            comm.style.color = "red";
+        }
+        else{
+            img_id.src = "{{url_for('static', filename='happy.gif')}}";
+            comm.style.color = "green";
+            comm.innerText = 'Survive';
+        }     
+
+        document.getElementById("myform").reset();
+        $('#res').show();
+        $('#content').hide();
+        })
+        .catch(error => console.log('Error --> ' + error));
+        
+
+    return false;
+
+        
+    });
+    
+</script>
+</body>
+</html>
