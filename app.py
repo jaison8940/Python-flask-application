@@ -16,7 +16,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = conn
 db = SQLAlchemy(app)
 results_df = pd.read_sql('SELECT * FROM results',conn,index_col = 'id')
 # print(results_df)
+
+
 class results(db.Model):
+    '''
+    This is results class
+    '''
     id = db.Column(db.Integer, primary_key = True)
     Pclass = db.Column(db.Integer)
     Age = db.Column(db.Integer)
